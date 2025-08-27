@@ -15,7 +15,7 @@ machine:
     hostname: cozy1
     # -- Discovered interfaces:
     # enp0s31f6:
-    #   hardwareAddr:6c:4b:90:36:f0:fc
+    #   hardwareAddr:6c:4b:90:62:1c:6c
     #   busPath: 0000:00:1f.6
     #   driver: e1000e
     #   vendor: Intel Corporation
@@ -33,12 +33,17 @@ machine:
       - 192.168.178.1
   install:
     # -- Discovered disks:
+    # /dev/nvme1n1:
+    #    model: Lexar SSD NM620 256GB
+    #    serial: QFK635R007403P1155
+    #    wwid: eui.0000000625063635caf25b038a000113
+    #    size: 256 GB
     # /dev/nvme0n1:
-    #    model: SAMSUNG MZVL8512HELU-00BH1
-    #    serial: S79SNX2X693301
-    #    wwid: eui.0025384641b85f82
+    #    model: INTEL SSDPEKNW512G8H
+    #    serial: BTNH92930MQD512A
+    #    wwid: eui.0000000001000000e4d25c15cb455101
     #    size: 512 GB
-    disk: /dev/nvme0n1
+    disk: /dev/nvme1n1
     image: ghcr.io/cozystack/cozystack/talos:v1.10.3
   files:
     - content: |
@@ -100,24 +105,4 @@ cluster:
       - 192.168.178.0/24
   allowSchedulingOnControlPlanes: true
 
-
-
-
----
-apiVersion: v1alpha1
-kind: VolumeConfig
-name: EPHEMERAL
-provisioning:
-  minSize: 70GiB
-  maxSize: 70GiB
-  grow: true
-
----
-apiVersion: v1alpha1
-kind: UserVolumeConfig
-name: data-storage
-provisioning:
-  diskSelector:
-    match: disk.transport == 'nvme'
-  minSize: 400GiB
 

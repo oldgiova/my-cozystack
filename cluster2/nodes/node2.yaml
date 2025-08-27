@@ -33,12 +33,17 @@ machine:
       - 192.168.178.1
   install:
     # -- Discovered disks:
+    # /dev/nvme1n1:
+    #    model: Lexar SSD NM620 256GB
+    #    serial: QFK635R004925P1155
+    #    wwid: eui.0000000625063635caf25b036e0003d4
+    #    size: 256 GB
     # /dev/nvme0n1:
     #    model: SAMSUNG MZVL4512HBLU-00BH1
     #    serial: S6B5NL1X306945
     #    wwid: nvme.144d-533642354e4c3158333036393435-53414d53554e47204d5a564c3435313248424c552d3030424831-00000001
     #    size: 512 GB
-    disk: /dev/nvme0n1
+    disk: /dev/nvme1n1
     image: ghcr.io/cozystack/cozystack/talos:v1.10.3
   files:
     - content: |
@@ -99,23 +104,3 @@ cluster:
     advertisedSubnets:
       - 192.168.178.0/24
   allowSchedulingOnControlPlanes: true
-
-
-
----
-apiVersion: v1alpha1
-kind: VolumeConfig
-name: EPHEMERAL
-provisioning:
-  minSize: 70GiB
-  maxSize: 70GiB
-  grow: true
-
----
-apiVersion: v1alpha1
-kind: UserVolumeConfig
-name: data-storage
-provisioning:
-  diskSelector:
-    match: disk.transport == 'nvme'
-  minSize: 400GiB

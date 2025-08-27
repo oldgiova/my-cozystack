@@ -6,7 +6,8 @@ metadata:
 data:
   bundle-name: "paas-full"
   root-host: oldgiova.sh
-  api-server-endpoint: https://api-cozy.oldgiova.sh:443
+  expose-services: "dashboard,api"
+  api-server-endpoint: https://192.168.178.111.nip.io:443
   ipv4-pod-cidr: "10.244.0.0/16"
   ipv4-pod-gateway: "10.244.0.1"
   ipv4-svc-cidr: "10.96.0.0/16"

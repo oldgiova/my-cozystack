@@ -14,14 +14,14 @@ machine:
   network:
     hostname: cozy3
     # -- Discovered interfaces:
-    # eno1:
-    #   hardwareAddr:00:23:24:b0:6a:d1
+    # enp0s31f6:
+    #   hardwareAddr:6c:4b:90:1f:e5:6e
     #   busPath: 0000:00:1f.6
     #   driver: e1000e
     #   vendor: Intel Corporation
     #   product: Ethernet Connection (2) I219-LM)
     interfaces:
-      - interface: eno1
+      - interface: enp0s31f6
         addresses:
           - 192.168.178.110/24
         routes:
@@ -33,12 +33,17 @@ machine:
       - 192.168.178.1
   install:
     # -- Discovered disks:
-    # /dev/sda:
-    #    model: SATA3 240GB SSD
-    #    serial: 
-    #    wwid: t10.ATA     SATA3 240GB SSD                         2021110602246
-    #    size: 240 GB
-    disk: /dev/sda
+    # /dev/nvme1n1:
+    #    model: Lexar SSD NM620 256GB
+    #    serial: QFK635R009941P1155
+    #    wwid: eui.0000000625063635caf25b03400002d8
+    #    size: 256 GB
+    # /dev/nvme0n1:
+    #    model: SAMSUNG MZVL8512HELU-00BH1
+    #    serial: S79SNX0X543590
+    #    wwid: eui.0025384541b288c8
+    #    size: 512 GB
+    disk: /dev/nvme1n1
     image: ghcr.io/cozystack/cozystack/talos:v1.10.3
   files:
     - content: |
@@ -99,27 +104,3 @@ cluster:
     advertisedSubnets:
       - 192.168.178.0/24
   allowSchedulingOnControlPlanes: true
-
-
-
-
-
----
-apiVersion: v1alpha1
-kind: VolumeConfig
-name: EPHEMERAL
-provisioning:
-  minSize: 70GiB
-  maxSize: 70GiB
-  grow: true
-
----
-apiVersion: v1alpha1
-kind: UserVolumeConfig
-name: data-storage
-provisioning:
-  diskSelector:
-    match: disk.transport == 'sata'
-  minSize: 150GiB
-
-
